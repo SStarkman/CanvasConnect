@@ -29,6 +29,10 @@ def create_app():
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
     """
+    # Register the auth blueprint
+    from .auth import auth as auth_blueprint  # import the auth blueprint
+    app.register_blueprint(auth_blueprint, url_prefix="/auth")  # make sure the URL prefix is "/auth"
+
     # blueprint for non-auth parts of app
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

@@ -79,7 +79,7 @@ def logout():
 if __name__ == "__main__":
     # Create an SSL context and load your certificate and key
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    context.load_cert_chain(certfile="cert.pem", keyfile="key.pem")
+    #context.load_cert_chain(certfile="cert.pem", keyfile="key.pem")
 
     # Run the app with SSL (HTTPS) and the context
     app.run(ssl_context=context, host="0.0.0.0", port=5000)
