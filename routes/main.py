@@ -11,3 +11,7 @@ def index():
         return redirect(url_for("auth.login"))
     return render_template("dashboard.html")  # Show the dashboard11
 
+@main.route('/new')
+def new_group():
+    return render_template("new_group.html")
+

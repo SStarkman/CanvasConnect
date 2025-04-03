@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block styles %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            background-color: #f4f4f9;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .cancel-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .button-container {
+            text-align: right;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h2>Create Group</h2>
+
+    <form action="/submit-group" method="POST">
+        <!-- Group Title -->
+        <label for="group-title">Group Title</label>
+        <input type="text" id="group-title" name="group-title" required>
+
+        <!-- Group Description -->
+        <label for="group-description">Group Description</label>
+        <textarea id="group-description" name="group-description" rows="4" required></textarea>
+
+        <!-- Tag -->
+        <label for="tag">Tag</label>
+        <input type="text" id="tag" name="tag" required>
+
+        <!-- Start Date and Time -->
+        <label for="start-date-time">Start Date and Time</label>
+        <input type="datetime-local" id="start-date-time" name="start-date-time" required>
+
+        <!-- End Date and Time -->
+        <label for="end-date-time">End Date and Time</label>
+        <input type="datetime-local" id="end-date-time" name="end-date-time" required>
+
+        <!-- Buttons -->
+        <div class="button-container">
+            <button type="submit" class="submit-btn">Submit</button>
+            <button type="reset" class="cancel-btn">Cancel</button>
+        </div>
+    </form>
+{% endblock %}
