@@ -1,5 +1,7 @@
 from datetime import datetime
-
+import requests
+from googleapiclient.discovery import build
+from google.oauth2.credentials import Credentials
 from flask import Blueprint, render_template, session, redirect, url_for, request
 from flask_login import login_required, current_user
 from app import db
@@ -13,6 +15,7 @@ def index():
     if "credentials" not in session:
         return redirect(url_for("auth.login"))
 
+    # Get all groups and take out ones that the person is busy during those times
     groups = Group.query.all() # Gets all groups
     return render_template("dashboard.html", groups = groups)  # Show the dashboard11
 
@@ -42,8 +45,11 @@ def submit_group():
             end_date_time=end_date_time,
             organizer_id= user.id
         )
+
         db.session.add(group)
         db.session.commit()
+
+        add_to_calendar(group.id)
 
         return redirect(url_for('main.index'))  # Redirect to a page that lists the groups
 
@@ -52,21 +58,18 @@ def submit_group():
 
 @main.route('/join-group', methods=['POST'])
 def join_group():
-    print("Join Group Clicked")
     group_id = request.form.get('group_id')
     user = get_user()
-    print("Group id", group_id, "user", user)
+
     new_membership = Membership(
         user_id = user.id,
         group_id = group_id
     )
 
-    print("new membership created")
-
     db.session.add(new_membership)
     db.session.commit()
 
-    print("Added to database")
+    add_to_calendar(group_id)
 
     return redirect(url_for('main.index'))  # Redirect to a page that lists the groups
 
@@ -93,3 +96,39 @@ def get_user():
         return user
     else:
         return redirect(url_for('auth.login'))
+
+def add_to_calendar(group_id):
+    # The endpoint to create a new event in the primary calendar
+    url = "https://www.googleapis.com/calendar/v3/calendars/primary/events"
+
+    # Access token from session (assumes you've already authenticated and stored this)
+    access_token = session['credentials']['token']
+
+    group = Group.query.get(group_id)
+    event = {
+        'summary': group.title,
+        'description': group.description,
+        'start': {
+            'dateTime': group.start_date_time.isoformat(),
+            'timeZone': 'UTC'
+        },
+        'end': {
+            'dateTime': group.end_date_time.isoformat(),
+            'timeZone': 'UTC'
+        }
+    }
+
+
+    headers={
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json'
+    }
+
+    # Make the POST request
+    response = requests.post(url, headers=headers, json=event)
+
+
+    if response.status_code == 200 or response.status_code == 201:
+        print('Event created:', response.json()['htmlLink'])
+    else:
+        print('Failed to create event:', response.text)
