@@ -12,7 +12,9 @@ def index():
     """Check if user is authenticated before showing the dashboard"""
     if "credentials" not in session:
         return redirect(url_for("auth.login"))
-    return render_template("dashboard.html")  # Show the dashboard11
+
+    groups = Group.query.all() # Gets all groups
+    return render_template("dashboard.html", groups = groups)  # Show the dashboard11
 
 @main.route('/new-group', methods=['GET'])
 def new_group():
