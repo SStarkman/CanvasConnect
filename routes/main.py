@@ -1,9 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import requests
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from flask import Blueprint, render_template, session, redirect, url_for, request
 from flask_login import login_required, current_user
+import tkinter as tk
+from tkinter import messagebox
 from app import db
 from routes.models import Group, User, Membership
 
@@ -26,6 +28,10 @@ def new_group():
 # Added for submission
 @main.route('/submit-group', methods=['POST'])
 def submit_group():
+    # Create the root window but hide it immediately
+    root = tk.Tk()
+    root.withdraw()  # Hide the root window
+
     # This handles the form submission
     group_title = request.form['group-title']
     group_description = request.form['group-description']
@@ -36,6 +42,10 @@ def submit_group():
     user = get_user()
 
     if user:
+        if(is_busy(start_date_time, end_date_time)):
+            messagebox.showinfo("BUSY", "You are busy at that time.")
+            return redirect(url_for('main.index'))  # Redirect to a page that lists the group
+
         # Create and add to the database
         group = Group(
             title=group_title,
@@ -132,3 +142,32 @@ def add_to_calendar(group_id):
         print('Event created:', response.json()['htmlLink'])
     else:
         print('Failed to create event:', response.text)
+
+def is_busy(start, end):
+    # The endpoint to create a new event in the primary calendar
+    url = "https://www.googleapis.com/calendar/v3/freeBusy"
+
+    # Access token from session (assumes you've already authenticated and stored this)
+    access_token = session['credentials']['token']
+
+    headers={
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json'
+    }
+
+    event = {
+        "timeMin": start.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "timeMax": end.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "timeZone": "UTC",
+        "items": [
+            {"id": "primary"}
+        ]
+    }
+    # Make the POST request
+    response = requests.post(url, headers=headers, json=event)
+
+    if response.status_code == 200 or response.status_code == 201:
+        return response.json()["calendars"]["primary"]["busy"]
+    else:
+        print('Failed', response.text)
+
