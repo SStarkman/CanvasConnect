@@ -10,7 +10,7 @@ def create_app():
     my_app = Flask(__name__)
 
     my_app.secret_key = os.getenv("FLASK_APP_SECRET_KEY")
-    my_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+    my_app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:Hellohi123!@database-1.coljl5r504w5.us-east-1.rds.amazonaws.com/test'
 
     db.init_app(my_app)
 
@@ -33,4 +33,4 @@ with app.app_context():
 
 if __name__ == "__main__":
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    app.run(ssl_context=context, host="0.0.0.0", port=5000)
+    app.run(ssl_context=context, host="0.0.0.0", port=8080)
