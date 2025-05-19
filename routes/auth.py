@@ -23,7 +23,7 @@ SCOPES = [
 flow = Flow.from_client_secrets_file(
     GOOGLE_CLIENT_SECRETS_FILE,
     scopes=SCOPES,
-    redirect_uri="https://localhost:5000/auth/callback"
+    redirect_uri="https://ec2-18-212-164-135.compute-1.amazonaws.com:8080/auth/callback"
 )
 
 @auth.route("/login")
