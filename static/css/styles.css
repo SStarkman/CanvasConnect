@@ -10823,5 +10823,88 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+
 }
+
+/* === Canvas Connect Custom Styling === */
+
+body {
+    background-color: #f9f9fb;
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    color: #212529;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 600;
+}
+
+.navbar {
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #4f46e5;
+}
+
+.navbar-brand img {
+    vertical-align: middle;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: #333 !important;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: #4f46e5 !important;
+}
+
+.btn-primary {
+    background-color: #4f46e5;
+    border-color: #4f46e5;
+    font-weight: 500;
+    border-radius: 0.5rem;
+}
+
+.btn-outline-primary {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+}
+
+.card {
+    border-radius: 1rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 0.95rem;
+}
+
+footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #eaeaea;
+}
+
+footer p {
+    margin: 0;
+    padding: 1rem 0;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
 
