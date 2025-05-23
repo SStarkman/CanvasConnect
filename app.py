@@ -10,8 +10,7 @@ def create_app():
     my_app = Flask(__name__)
 
     my_app.secret_key = os.getenv("FLASK_APP_SECRET_KEY")
-    my_app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://admin:Hellohi123!@database-1.coljl5r504w5.us-east-1.rds.amazonaws.com/test'
-
+    my_app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_CONNECTOR")
     db.init_app(my_app)
 
     # Register the auth blueprint
