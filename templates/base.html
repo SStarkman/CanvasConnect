@@ -18,32 +18,39 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url_for('main.index') }}">
-                <img src="{{ url_for('static', filename='canvasconnect_logo.png') }}" alt="Canvas Connect Logo" width="32" class="me-2">
-                Canvas Connect
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    <li class="nav-item">
-                        <a href="{{ url_for('main.new_group') }}" class="nav-link btn btn-primary text-white px-3 ms-lg-2 mt-2 mt-lg-0">
-                            <i class="bi bi-plus-circle me-1"></i> Add
-                        </a>
-                    </li>
-                </ul>
-                {% if session.get('user_name') %}
-                <span class="navbar-text ms-3 text-muted small">
-                    Hi, {{ session.get('user_name') }}
-                </span>
-                {% endif %}
-            </div>
+    <div class="container d-flex align-items-center justify-content-between">
+        <!-- Logo + User Greeting -->
+        <div class="navbar-brand d-flex flex-column align-items-center text-center">
+            <img src="{{ url_for('static', filename='canvasconnect_logo.png') }}" alt="Canvas Connect Logo" width="64" height="64" style="object-fit: contain;">
+            {% if session.get('user_name') %}
+            <small class="text-muted mt-1">Hi, {{ session.get('user_name') }}</small>
+            {% endif %}
         </div>
-    </nav>
+
+        <!-- Hamburger Button for Small Screens -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.index') }}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('main.new_group') }}" class="nav-link btn btn-primary text-white px-3 ms-lg-2 mt-2 mt-lg-0">
+                        <i class="bi bi-plus-circle me-1"></i> Add
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 
     <!-- Flash Messages -->
     <div class="container mt-4">
