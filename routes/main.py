@@ -2,10 +2,8 @@ from datetime import datetime, timezone
 import requests
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
-from flask import Blueprint, render_template, session, redirect, url_for, request
+from flask import Blueprint, render_template, session, redirect, url_for, request, flash
 from flask_login import login_required, current_user
-import tkinter as tk
-from tkinter import messagebox
 from app import db
 from routes.models import Group, User, Membership
 
@@ -28,10 +26,6 @@ def new_group():
 # Added for submission
 @main.route('/submit-group', methods=['POST'])
 def submit_group():
-    # Create the root window but hide it immediately
-    root = tk.Tk()
-    root.withdraw()  # Hide the root window
-
     # This handles the form submission
     group_title = request.form['group-title']
     group_description = request.form['group-description']
@@ -43,7 +37,7 @@ def submit_group():
 
     if user:
         if(is_busy(start_date_time, end_date_time)):
-            messagebox.showinfo("BUSY", "You are busy at that time.")
+            flash("You are busy at that time.", "warning")
             return redirect(url_for('main.index'))  # Redirect to a page that lists the group
 
         # Create and add to the database
