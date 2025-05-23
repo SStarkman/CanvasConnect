@@ -32,4 +32,5 @@ with app.app_context():
 
 if __name__ == "__main__":
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    # Port: 8080
     app.run(ssl_context=context, host="0.0.0.0", port=8080)
