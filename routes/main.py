@@ -16,7 +16,7 @@ def index():
         return redirect(url_for("auth.login"))
 
     # Get all groups and take out ones that the person is busy during those times
-    groups = Group.query.all() # Gets all groups
+    groups = [g for g in Group.query.all() if not is_busy(g.start_date_time, g.end_date_time)] # Gets all groups, if not busy at that time
     return render_template("dashboard.html", groups = groups)  # Show the dashboard11
 
 @main.route('/new-group', methods=['GET'])
